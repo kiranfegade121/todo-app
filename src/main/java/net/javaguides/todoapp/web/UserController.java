@@ -15,7 +15,7 @@ import net.javaguides.todoapp.model.LoginBean;
 import net.javaguides.todoapp.model.User;
 
 /**
- * @email Ramesh Fadatare
+ * @Author Amit Fegade
  */
 
 @WebServlet(urlPatterns = { "/register", "/login" }, loadOnStartup = 0)
