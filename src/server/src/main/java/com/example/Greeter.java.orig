@@ -1,8 +1,11 @@
 package com.example;
 
 /**
- * This is a class.
+<<<<<<< HEAD
  * This is a class. Hello World
+=======
+ * This is a class. Hello
+>>>>>>> c95e6032c9aa376cfaee35036b55c416a4c2e750
  */
 public class Greeter {
 
