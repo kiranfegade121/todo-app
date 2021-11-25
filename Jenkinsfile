@@ -44,15 +44,7 @@ pipeline {
                                    -Dsonar.java.binaries=target'''     
                          }
                      }
-                }
-
-                stage("Quality Gate") {
-                    steps {
-                        timeout(time: 3, unit: "MINUTES") {
-                            waitForQualityGate abortPipeline: true, credentialsId: 'SonarQubeToken'
-                        }
-                    }
-                } 
+                }             
 
                 stage("Deploy an application to staging") {
                     steps {
@@ -70,6 +62,14 @@ pipeline {
                 }
             }
         }
+
+       stage("Quality Gate") {
+                    steps {
+                        timeout(time: 3, unit: "MINUTES") {
+                            waitForQualityGate abortPipeline: true, credentialsId: 'SonarQubeToken'
+                        }
+                    }
+        } 
 
         stage("Deploy to production") {
            
