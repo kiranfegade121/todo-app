@@ -1,7 +1,7 @@
 pipeline {
 
     agent {
-        lable "linux-instance"
+        label "linux-instance"
     }
 
     tools {
