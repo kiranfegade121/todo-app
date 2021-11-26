@@ -58,11 +58,7 @@ pipeline {
             }
         }
 
-        stage("Run docker container on remote host") {
-            steps {
-               sh "docker -H ssh://anna@10.128.0.12 run -d -p 8080:8080 amitfegade121/todo-app"   
-            }
-        }
+      
     }
         
 }
