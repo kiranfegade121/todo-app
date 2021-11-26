@@ -58,15 +58,18 @@ pipeline {
             }
         }
 
-       def remote = [:]
-       remote.name = 'prod-server'
-       remote.host = '10.128.0.12'
-       remote.user = 'anna'
-       remote.allowAnyHosts = true
-       stage("Run docker container on prod-server") {           
-           withCredentials([usernamePassword(credentialsId: 'dockerserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
-               remote.password = passwordValue
-               sshCommand remote: remote, command: "docker version"
+       
+       stage("Run docker container on prod-server") {     
+           def remote = [:]
+           remote.name = 'prod-server'
+           remote.host = '10.128.0.12'
+           remote.user = 'anna'
+           remote.allowAnyHosts = true      
+           steps {
+                    withCredentials([usernamePassword(credentialsId: 'dockerserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
+                        remote.password = passwordValue
+                        sshCommand remote: remote, command: "docker version"
+                   }
            }
        } 
     }
