@@ -99,8 +99,7 @@ pipeline {
                         failure {
                             echo "Failed to deploy an application to staging".
                         }
-                    }
-                }
+                    }                
             }
 
             stage("Deploy an application to production server") {
