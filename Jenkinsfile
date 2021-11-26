@@ -75,6 +75,10 @@ pipeline {
                                    -Dsonar.sources=src \
                                    -Dsonar.java.binaries=target'''     
                          }
+                         def qualitygate = waitForQualityGate()
+                         if (qualitygate.status != "OK") {
+                                error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                         }
                      }
                 }
 
