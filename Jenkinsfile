@@ -97,7 +97,7 @@ pipeline {
                             echo "An application is deployed successfully to staging environment"
                         }
                         failure {
-                            echo "Failed to deploy an application to staging".
+                            echo "Failed to deploy an application to staging."
                         }
                     }                
                }
