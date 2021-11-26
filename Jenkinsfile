@@ -1,7 +1,7 @@
 pipeline {
 
     agent {
-        label "linux-instance"
+        label "linux-instance"        
     }
 
     tools {
@@ -9,71 +9,55 @@ pipeline {
     }
 
     environment {
-                REGISTRY = "amitfegade121/todo-app"
-                REGISTRY_CREDENTIALS = "dockerhubcred"
-                dockerImage = ""
+        REGISTRY = "amitfegade121/todo-app"
+        REGISTRY_CREDENTIALS = "dockerhubcred"
+        dockerImage = ""
     }
 
     stages {
 
         stage("Build and Package an application") {
             steps {
-                echo "Building a project"
-                sh 'mvn clean package'                
+                echo "Building an application"
+                sh 'mvn clean package'
             }
             post {
                 success {
-                     echo "Archieving an artifact"
-                     archiveArtifacts artifacts: '**/*.war', followSymlinks: false   
+                    echo "Archiving an artifact"
+                    archiveArtifacts artifacts: '**/*.war', followSymlinks: false
                 }
                 failure {
-                    echo "Failed to build a project"
+                    echo "Failed to build an application"
                 }
             }
         }
 
-        stage("Build an image") {
+        stage("Build an docker image") {
             steps {
                 script {
-                    dockerImage = docker.build REGISTRY + ":$BUILD_NUMBER"
+                    dockerImage = docker.build  REGISTRY + ":$BUILD_NUMBER"
                 }
             }
         }
 
-        stage("Push Docker Image to registry") {
+        stage("Push docker image") {
             steps {
                 script {
                     docker.withRegistry("", REGISTRY_CREDENTIALS) {
-                        dockerImage.push();
-                        dockerImage.push("latest")
+                        dockerImage.push();    
+                        dockerImage.push("latest");   
                     }
                 }
             }
         }
 
-        stage("Remove unused images") {
+        stage("Remove unwanted docker images") {
             steps {
-                sh "docker rmi $REGISTRY:$BUILD_NUMBER"
-                sh "docker rmi $REGISTRY:latest"
+                sh '''docker rmi $REGISTRY:$BUILD_NUMBER 
+                      docker rmi $REGISTRY:latest
+                    '''
             }
         }
-
-       
-       stage("Run docker container on prod-server") {     
-           steps {
-               script {   
-                   def remote = [:]
-                   remote.name = 'stage-server'
-                   remote.host = '10.128.0.11'
-                   remote.user = 'peter'
-                   remote.allowAnyHosts = true
-                   withCredentials([usernamePassword(credentialsId: 'stageserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
-                        remote.password = passwordValue
-                        sshCommand remote: remote, command: "docker container run -d -p 8080:8080 amitfegade121/todo-app"
-                   }
-              }      
-            }
-           }       
     }
-        
 }
+
