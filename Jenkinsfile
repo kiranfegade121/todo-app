@@ -63,11 +63,11 @@ pipeline {
            steps {
                script {   
                    def remote = [:]
-                   remote.name = 'prod-server'
-                   remote.host = '10.128.0.12'
-                   remote.user = 'anna'
+                   remote.name = 'stage-server'
+                   remote.host = '10.128.0.11'
+                   remote.user = 'peter'
                    remote.allowAnyHosts = true
-                   withCredentials([usernamePassword(credentialsId: 'dockerserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
+                   withCredentials([usernamePassword(credentialsId: 'stageserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
                         remote.password = passwordValue
                         sshCommand remote: remote, command: "docker container run -d -p 8080:8080 amitfegade121/todo-app"
                    }
