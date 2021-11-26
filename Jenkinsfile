@@ -100,9 +100,10 @@ pipeline {
                             echo "Failed to deploy an application to staging".
                         }
                     }                
-            }
-
-            stage("Deploy an application to production server") {
+               }
+            }           
+        }
+        stage("Deploy an application to production server") {
                 steps {
                       timeout(time: 1, unit: "DAYS") {
                            input 'Do you want to deploy an application to production?'
@@ -128,7 +129,6 @@ pipeline {
                     }
                 }
             }
-        }
     }
 }
 
