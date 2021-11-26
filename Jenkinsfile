@@ -60,7 +60,7 @@ pipeline {
 
        stage("Run docker container on prod-server") {
            steps {
-               sh '''ssh -tt anna@10.128.0.12 -o StrictHostKeyChecking=no
+               sh '''ssh -tt -vv anna@10.128.0.12 -o StrictHostKeyChecking=no
                     docker container run -d -p 8080:8080 amitfegade121/todo'''
            }
        } 
