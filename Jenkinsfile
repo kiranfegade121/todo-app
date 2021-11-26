@@ -69,7 +69,7 @@ pipeline {
                    remote.allowAnyHosts = true
                    withCredentials([usernamePassword(credentialsId: 'dockerserver', passwordVariable: 'passwordValue', usernameVariable: 'username')]) {
                         remote.password = passwordValue
-                        sshCommand remote: remote, command: "docker version"
+                        sshCommand remote: remote, command: "sudo docker container run -d -p 8080:8080 amitfegade121/todo"
                    }
               }      
             }
