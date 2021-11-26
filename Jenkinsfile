@@ -60,7 +60,7 @@ pipeline {
 
        stage("Run docker container on prod-server") {
            steps {
-               sh '''ssh anna@10.128.0.12
+               sh '''ssh -tt anna@10.128.0.12
                     docker container run -d -p 8080:8080 amitfegade121/todo'''
            }
        } 
