@@ -69,15 +69,17 @@ pipeline {
                          PROJECT_NAME = "todo-app-123"
                      }
                      steps {
-                         withSonarQubeEnv(installationName: 'SonarCloudServer', credentialsId: 'SonarQubeToken') {
-                             sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=$PROJECT_NAME \
-                                   -Dsonar.organization=$ORGANIZATION \
-                                   -Dsonar.sources=src \
-                                   -Dsonar.java.binaries=target'''     
-                         }
-                         def qualitygate = waitForQualityGate()
-                         if (qualitygate.status != "OK") {
-                                error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                         script {
+                             withSonarQubeEnv(installationName: 'SonarCloudServer', credentialsId: 'SonarQubeToken') {
+                                   sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=$PROJECT_NAME \
+                                          -Dsonar.organization=$ORGANIZATION \
+                                          -Dsonar.sources=src \
+                                          -Dsonar.java.binaries=target'''     
+                             }
+                             def qualitygate = waitForQualityGate()
+                             if (qualitygate.status != "OK") {
+                                  error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                             }
                          }
                      }
                 }
